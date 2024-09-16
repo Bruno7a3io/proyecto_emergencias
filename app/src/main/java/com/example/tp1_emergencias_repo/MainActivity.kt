@@ -3,6 +3,9 @@ package com.example.tp1_emergencias_repo
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color.GREEN
+import android.graphics.Color.RED
+import android.hardware.camera2.CameraManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
@@ -19,6 +22,8 @@ import com.example.tp1_emergencias_repo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    private var cameraFlash = false
+    private var flashon = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +44,27 @@ class MainActivity : AppCompatActivity() {
 
         balert.setOnClickListener {
             sonido.start()
+        }
+
+        val bl: Button = findViewById(R.id.B2)
+
+        cameraFlash = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
+
+        bl.setOnClickListener{
+            if (cameraFlash){
+                if(flashon){
+                    flashon = false
+                    bl.setBackgroundColor(RED)
+
+                    flashLightoff()
+                }
+                else{
+                    flashon = true
+                    bl.setBackgroundColor(GREEN)
+
+                    flashLighton()
+                }
+            }
         }
 
 
@@ -141,5 +167,28 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Permiso rechazado por primera vez", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    //linterna
+
+    private fun flashLightoff() {
+        val cameraManager: CameraManager = getSystemService(CAMERA_SERVICE) as CameraManager
+        var cameraId: String
+        try {
+            cameraId = cameraManager.cameraIdList[0]
+            cameraManager.setTorchMode(cameraId, false)
+            Toast.makeText(this,"Linterna apagada",Toast.LENGTH_SHORT).show()
+        }catch (e: Exception){}
+
+    }
+
+    private fun flashLighton() {
+        val cameraManager: CameraManager = getSystemService(CAMERA_SERVICE) as CameraManager
+        var cameraId: String
+        try {
+            cameraId = cameraManager.cameraIdList[0]
+            cameraManager.setTorchMode(cameraId, true)
+            Toast.makeText(this,"Linterna encendida",Toast.LENGTH_SHORT).show()
+        }catch (e: Exception){}
     }
 }
