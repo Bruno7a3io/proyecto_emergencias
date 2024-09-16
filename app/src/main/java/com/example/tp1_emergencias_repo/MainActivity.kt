@@ -7,6 +7,7 @@ import android.graphics.Color.GREEN
 import android.graphics.Color.RED
 import android.hardware.camera2.CameraManager
 import android.media.MediaPlayer
+import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -24,6 +25,13 @@ class MainActivity : AppCompatActivity() {
 
     private var cameraFlash = false
     private var flashon = false
+
+    //grabadora
+    lateinit var mr: MediaRecorder
+    lateinit var btPlay: Button
+    lateinit var btStop: Button
+    lateinit var btStart: Button
+    lateinit var path: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,8 +75,74 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //grabadora
+
+        path = getExternalFilesDir(null)?.absolutePath + "/myrec.3gp"
+        mr = MediaRecorder()
+
+        btPlay = findViewById(R.id.btnPlay)
+        btPlay.isEnabled = false
+
+        btStop = findViewById(R.id.btnStop)
+        btStop.isEnabled = false
+
+        btStart = findViewById(R.id.btnStart)
+        btStart.isEnabled = false
 
 
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                111
+            )
+        } else {
+            btPlay.isEnabled = true
+            btStart.isEnabled = true
+        }
+
+        // Start Recording
+        btStart.setOnClickListener {
+            mr.setAudioSource(MediaRecorder.AudioSource.MIC)
+            mr.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            mr.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+            mr.setOutputFile(path)
+            mr.prepare()
+            mr.start()
+            btStop.isEnabled = true
+            btStart.isEnabled = false
+        }
+
+        // Stop Recording
+        btStop.setOnClickListener {
+            mr.stop()
+            mr.reset()
+            btStart.isEnabled = true
+            btStop.isEnabled = false
+            btPlay.isEnabled = true
+        }
+
+        // Play Recording
+        btPlay.setOnClickListener {
+            val mp = MediaPlayer()
+            mp.setDataSource(path)
+            mp.prepare()
+            mp.start()
+        }
+
+
+    }
+
+    //grabadora
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 111 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            btPlay.isEnabled = true
+            btStart.isEnabled = true
+        }
     }
 
     private fun checkcallPermission() {
@@ -153,7 +227,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(
+    /*override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
@@ -167,7 +241,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Permiso rechazado por primera vez", Toast.LENGTH_SHORT).show()
             }
         }
-    }
+    }*/
 
     //linterna
 
@@ -191,4 +265,5 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Linterna encendida",Toast.LENGTH_SHORT).show()
         }catch (e: Exception){}
     }
+
 }
