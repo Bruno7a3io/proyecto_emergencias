@@ -1,3 +1,5 @@
+val implementation: Unit = Unit
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -6,6 +8,9 @@ plugins {
 android {
     namespace = "com.example.tp1_emergencias_repo"
     compileSdk = 34
+
+    //lo agrege
+    buildFeatures.viewBinding= true
 
     defaultConfig {
         applicationId = "com.example.tp1_emergencias_repo"
@@ -45,4 +50,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //lo agrege
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.fragment.ktx)
 }
