@@ -113,6 +113,9 @@ class MainActivity : AppCompatActivity() {
     private fun opencamera() {
         Toast.makeText(this, "Abriendo camara", Toast.LENGTH_SHORT).show()
         //codigo para abrir camara y guardar la imagen
+        val intento1 = Intent(this,camara::class.java)
+        startActivity(intento1)
+
     }
 
     private fun requestCameraPermission() {
