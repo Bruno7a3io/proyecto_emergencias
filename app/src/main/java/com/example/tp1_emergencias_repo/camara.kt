@@ -26,6 +26,7 @@ import androidx.camera.video.Recorder
 import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoRecordEvent
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.isEnabled
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -99,8 +100,10 @@ class camara : AppCompatActivity() {
         viewBinding.CambiarCamara.setOnClickListener{
             Cambiar_Camara()
         }
-        viewBinding.videoCaptureButton.setOnClickListener { captureVideo() }
 
+        viewBinding.videoCaptureButton.setOnClickListener { captureVideo() }
+        val redColor = ContextCompat.getColor(this, R.color.red)
+        viewBinding.videoCaptureButton.setBackgroundColor(redColor)
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
