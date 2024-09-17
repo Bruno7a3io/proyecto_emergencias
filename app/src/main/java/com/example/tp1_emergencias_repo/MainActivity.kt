@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var btPlay: Button
     lateinit var btStop: Button
     lateinit var btStart: Button
+    lateinit var btnmapa: Button
     lateinit var path: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,6 +132,12 @@ class MainActivity : AppCompatActivity() {
             mp.setDataSource(path)
             mp.prepare()
             mp.start()
+        }
+
+        btnmapa = findViewById(R.id.B4)
+        btnmapa.setOnClickListener {
+            val intento2 = Intent(this,Mapa::class.java)
+            startActivity(intento2)
         }
 
 
