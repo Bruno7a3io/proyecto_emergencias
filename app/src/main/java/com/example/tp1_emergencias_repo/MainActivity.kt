@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var btStop: Button
     lateinit var btStart: Button
     lateinit var btnmapa: Button
+    lateinit var btnchat: Button
     lateinit var path: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -138,6 +139,12 @@ class MainActivity : AppCompatActivity() {
         btnmapa.setOnClickListener {
             val intento2 = Intent(this,Mapa::class.java)
             startActivity(intento2)
+        }
+
+        btnchat = findViewById(R.id.Bchat)
+        btnchat.setOnClickListener {
+            val intento3 = Intent(this,chat::class.java)
+            startActivity(intento3)
         }
 
 
