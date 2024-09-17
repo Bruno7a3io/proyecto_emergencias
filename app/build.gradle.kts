@@ -61,4 +61,9 @@ dependencies {
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.camera2)
 
+    //para mapa
+    //implementation(kotlin("com.google.android.gms:play-services-maps:17.0.0"))
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
+
 }
