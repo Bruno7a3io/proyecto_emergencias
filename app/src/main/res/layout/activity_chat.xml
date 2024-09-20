@@ -36,11 +36,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvmensajes"
-        android:layout_width="389dp"
-        android:layout_height="327dp"
+        android:layout_width="257dp"
+        android:layout_height="320dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="397dp"
+        android:layout_marginEnd="51dp"
+        android:layout_marginBottom="404dp"
         android:layout_weight="1"
         tools:layout_editor_absoluteY="41dp" />
 
@@ -77,5 +79,15 @@
         app:srcCompat="@drawable/ic_launcher_foreground"
         tools:layout_editor_absoluteX="287dp"
         tools:layout_editor_absoluteY="16dp" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="312dp"
+        android:layout_marginBottom="665dp"
+        android:text="V" />
 
 </RelativeLayout>

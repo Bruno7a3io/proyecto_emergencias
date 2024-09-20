@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
@@ -46,6 +47,9 @@ class chat : AppCompatActivity() {
     private lateinit var txtmensaje : EditText
     private lateinit var btnenviar : Button
 
+    lateinit var volver: Button
+
+
     private lateinit var adapter : adaptermensajes
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +63,12 @@ class chat : AppCompatActivity() {
         vistarecycle = findViewById(R.id.rvmensajes)
         txtmensaje = findViewById(R.id.txt_mensaje)
         btnenviar = findViewById(R.id.btn_enviar)
+
+        volver = findViewById(R.id.back)
+        volver.setOnClickListener {
+            val intento = Intent(this,MainActivity::class.java)
+            startActivity(intento)
+        }
 
         database = FirebaseDatabase.getInstance()
         databaseReference = database.getReference("chat")

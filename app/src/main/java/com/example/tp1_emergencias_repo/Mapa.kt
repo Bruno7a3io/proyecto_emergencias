@@ -11,8 +11,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import android.Manifest
+import android.content.Intent
 import android.location.Geocoder
 import android.location.Location
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -26,6 +28,9 @@ class Mapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationClic
     /*a*/
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     /*a*/
+
+    lateinit var volver: Button
+
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map.setOnMyLocationClickListener(this)
@@ -42,6 +47,12 @@ class Mapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationClic
 
         // Cambiar el texto del TextView
         cartelTexto.text = "Nuevo texto del cartel"
+
+        volver = findViewById(R.id.back)
+        volver.setOnClickListener {
+            val intento = Intent(this,MainActivity::class.java)
+            startActivity(intento)
+        }
 
     }
     private fun createMapFragment() {
