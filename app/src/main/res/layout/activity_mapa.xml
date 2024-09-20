@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragmentMap"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Mapa" />
+    tools:context=".Mapa">
+
+    <!-- Mapa (SupportMapFragment) -->
+    <fragment
+        android:id="@+id/fragmentMap"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Cartel (TextView) superpuesto sobre el mapa -->
+    <TextView
+        android:id="@+id/cartelTexto"
+        android:layout_width="278dp"
+        android:layout_height="85dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginEnd="78dp"
+        android:layout_marginBottom="600dp"
+        android:background="@android:color/holo_red_light"
+        android:padding="16dp"
+        android:text="ubicacion."
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+</RelativeLayout>
