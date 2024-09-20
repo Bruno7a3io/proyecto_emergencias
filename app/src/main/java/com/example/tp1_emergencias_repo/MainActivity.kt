@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -26,6 +27,9 @@ class MainActivity : AppCompatActivity() {
 
     private var cameraFlash = false
     private var flashon = false
+
+    private var isRunning = false
+    private lateinit var colorThread: Thread
 
     //grabadora
     lateinit var mr: MediaRecorder
@@ -50,12 +54,28 @@ class MainActivity : AppCompatActivity() {
 
         val balert : Button = findViewById(R.id.B3)
 
-        val sonido : MediaPlayer = MediaPlayer.create(this, R.raw.barbaros)
+        val sonido = MediaPlayer.create(this, R.raw.alerta)
 
 
         balert.setOnClickListener {
-            sonido.start()
-        }
+                if(!sonido.isLooping){
+                    sonido.start()
+                    sonido.isLooping = true
+                    btStart.isEnabled = false
+                    btPlay.isEnabled = false
+                    balert.setBackgroundColor(GREEN)
+                    startColorChange()
+                }
+                else{
+                    sonido.pause()
+                    sonido.isLooping = false
+                    btStart.isEnabled = true
+                    btPlay.isEnabled = true
+                    balert.setBackgroundColor(RED)
+                    stopColorChange()
+                }
+
+            }
 
         val bl: Button = findViewById(R.id.B2)
 
@@ -288,5 +308,36 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Linterna encendida",Toast.LENGTH_SHORT).show()
         }catch (e: Exception){}
     }
+
+    //alerta cambio de fondo
+    private fun startColorChange() {
+        isRunning = true
+        colorThread = Thread {
+            while (isRunning) {
+                runOnUiThread {
+                    val color = getRandomColor()
+                    findViewById<View>(R.id.main).setBackgroundColor(color)
+                }
+                Thread.sleep(250) // Cambia el color cada segundo
+            }
+        }
+        colorThread.start()
+    }
+
+    private fun stopColorChange() {
+        isRunning = false
+        colorThread.join() // Espera a que el hilo termine
+        findViewById<View>(R.id.main).setBackgroundColor(android.graphics.Color.WHITE) // Restablece el color blanco
+    }
+
+    private fun getRandomColor(): Int {
+        return if (Math.random() < 0.5) {
+            android.graphics.Color.RED // Color rojo
+        } else {
+            android.graphics.Color.BLUE // Color azul
+        }
+    }
+
+
 
 }
