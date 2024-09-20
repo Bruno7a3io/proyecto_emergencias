@@ -161,6 +161,7 @@ class camara : AppCompatActivity() {
                         viewBinding.videoCaptureButton.apply {
                             text = getString(R.string.stop_capture)
                             isEnabled = true
+                            viewBinding.CambiarCamara.isEnabled = false
                         }
                     }
                     is VideoRecordEvent.Finalize -> {
