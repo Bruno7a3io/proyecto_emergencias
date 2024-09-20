@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var btStart: Button
     lateinit var btnmapa: Button
     lateinit var btnchat: Button
+    lateinit var balert: Button
     lateinit var path: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +53,8 @@ class MainActivity : AppCompatActivity() {
         val bcalling: Button = findViewById(R.id.B1)
         bcalling.setOnClickListener { checkcallPermission()}
 
-        val balert : Button = findViewById(R.id.B3)
+        balert = findViewById(R.id.B3)
+        balert.isEnabled = true
 
         val sonido = MediaPlayer.create(this, R.raw.alerta)
 
@@ -138,6 +140,7 @@ class MainActivity : AppCompatActivity() {
             btStop.isEnabled = true
             btStart.isEnabled = false
             btPlay.isEnabled = false
+            balert.isEnabled = false
 
         }
 
@@ -148,6 +151,7 @@ class MainActivity : AppCompatActivity() {
             btStart.isEnabled = true
             btStop.isEnabled = false
             btPlay.isEnabled = true
+            balert.isEnabled = true
         }
 
         // Play Recording
@@ -157,9 +161,12 @@ class MainActivity : AppCompatActivity() {
             mp.prepare()
             mp.start()
             btStart.isEnabled = false
+            balert.isEnabled = false
 
             mp.setOnCompletionListener {
                 btStart.isEnabled = true
+                balert.isEnabled = true
+
             }
 
         }
@@ -294,7 +301,6 @@ class MainActivity : AppCompatActivity() {
         try {
             cameraId = cameraManager.cameraIdList[0]
             cameraManager.setTorchMode(cameraId, false)
-            Toast.makeText(this,"Linterna apagada",Toast.LENGTH_SHORT).show()
         }catch (e: Exception){}
 
     }
@@ -305,7 +311,6 @@ class MainActivity : AppCompatActivity() {
         try {
             cameraId = cameraManager.cameraIdList[0]
             cameraManager.setTorchMode(cameraId, true)
-            Toast.makeText(this,"Linterna encendida",Toast.LENGTH_SHORT).show()
         }catch (e: Exception){}
     }
 
@@ -327,7 +332,7 @@ class MainActivity : AppCompatActivity() {
     private fun stopColorChange() {
         isRunning = false
         colorThread.join() // Espera a que el hilo termine
-        findViewById<View>(R.id.main).setBackgroundColor(android.graphics.Color.WHITE) // Restablece el color blanco
+        findViewById<View>(R.id.main).setBackgroundColor(android.graphics.Color.LTGRAY) // Restablece el color blanco
     }
 
     private fun getRandomColor(): Int {

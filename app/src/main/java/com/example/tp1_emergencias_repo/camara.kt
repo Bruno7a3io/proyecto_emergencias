@@ -98,6 +98,11 @@ class camara : AppCompatActivity() {
             Cambiar_Camara()
         }
 
+        viewBinding.volver.setOnClickListener{
+            val intento = Intent(this,MainActivity::class.java)
+            startActivity(intento)
+        }
+
         viewBinding.videoCaptureButton.setOnClickListener { captureVideo() }
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
@@ -162,6 +167,7 @@ class camara : AppCompatActivity() {
                             text = getString(R.string.stop_capture)
                             isEnabled = true
                             viewBinding.CambiarCamara.isEnabled = false
+                            viewBinding.volver.isEnabled = false
                         }
                     }
                     is VideoRecordEvent.Finalize -> {
