@@ -11,11 +11,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import android.Manifest
+import android.location.Geocoder
 import android.location.Location
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import java.io.IOException
+import java.util.Locale
 
 class Mapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationClickListener {
     private lateinit var map: GoogleMap
@@ -200,8 +203,24 @@ class Mapa : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationClic
         }
     }
 
-    override fun onMyLocationClick(p0: Location) {
+    /*override fun onMyLocationClick(p0: Location) {
         Toast.makeText(this,"Estas en ${p0.latitude}, ${p0.longitude}", Toast.LENGTH_SHORT).show()
+    }*/
+    override fun onMyLocationClick(p0: Location) {
+        val geocoder = Geocoder(this, Locale.getDefault())
+        try {
+            val addresses = geocoder.getFromLocation(p0.latitude, p0.longitude, 1)
+            if (addresses != null && addresses.isNotEmpty()) {
+                val address = addresses[0]
+                val streetName = address.thoroughfare ?: "Nombre de calle no disponible"
+                Toast.makeText(this, "Estás en $streetName", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "No se pudo obtener la dirección", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error al obtener la dirección", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
