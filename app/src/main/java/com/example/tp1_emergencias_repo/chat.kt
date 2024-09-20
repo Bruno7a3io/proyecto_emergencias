@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,11 @@ import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 
 class chat : AppCompatActivity() {
 
@@ -72,6 +78,7 @@ class chat : AppCompatActivity() {
 
 
         btnenviar.setOnClickListener {
+            if (isConnected(this)) {
             val mensaje = mensaje(
                 mensaje = txtmensaje.text.toString(),
                 nombre = nombre.text.toString(),
@@ -85,6 +92,9 @@ class chat : AppCompatActivity() {
                         Log.e(TAG, "Error al enviar mensaje", task.exception)
                     }
                 }
+            } else {
+                Toast.makeText(this, "Estás fuera de línea. No puedes enviar mensajes.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
@@ -143,6 +153,15 @@ class chat : AppCompatActivity() {
 
     fun add(mensaje: mensaje) {
         adapter.addMensaje(mensaje)
+    }
+
+    //chequear conexión
+
+    private fun isConnected(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+        return networkCapabilities != null && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
 }
