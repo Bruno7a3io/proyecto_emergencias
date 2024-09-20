@@ -11,6 +11,7 @@ import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -116,6 +117,8 @@ class MainActivity : AppCompatActivity() {
             mr.start()
             btStop.isEnabled = true
             btStart.isEnabled = false
+            btPlay.isEnabled = false
+
         }
 
         // Stop Recording
@@ -133,6 +136,12 @@ class MainActivity : AppCompatActivity() {
             mp.setDataSource(path)
             mp.prepare()
             mp.start()
+            btStart.isEnabled = false
+
+            mp.setOnCompletionListener {
+                btStart.isEnabled = true
+            }
+
         }
 
         btnmapa = findViewById(R.id.B4)
