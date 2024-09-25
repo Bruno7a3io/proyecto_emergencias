@@ -332,7 +332,7 @@ class MainActivity : AppCompatActivity() {
     private fun stopColorChange() {
         isRunning = false
         colorThread.join() // Espera a que el hilo termine
-        findViewById<View>(R.id.main).setBackgroundColor(android.graphics.Color.LTGRAY) // Restablece el color blanco
+        findViewById<View>(R.id.main).setBackgroundColor(android.graphics.Color.BLACK) // Restablece el color blanco
     }
 
     private fun getRandomColor(): Int {
